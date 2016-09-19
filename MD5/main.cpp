@@ -9,13 +9,16 @@ int main(int argc, char **argv)
   {
     QString filePath = argv[1];
     QFile theFile(filePath);
-    QByteArray ba;
+    QByteArray result;
 
     if(theFile.open(QIODevice::ReadOnly))
     {
-      ba = QCryptographicHash::hash(theFile.readAll(),QCryptographicHash::Md5);
+      result = QCryptographicHash::hash(theFile.readAll(),QCryptographicHash::Md5);
+      qDebug()<< "\n" << "MD5 Value:  " << QString(result.toHex().constData()).toUpper();
+      result = QCryptographicHash::hash(theFile.readAll(),QCryptographicHash::Sha1);
+      qDebug()<< "\n" << "Sha1 Value: " << QString(result.toHex().constData()).toUpper();
+
       theFile.close();
-      qDebug()<< "\n" << QString(ba.toHex().constData()).toUpper();
     }
     else
     {
